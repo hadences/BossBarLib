@@ -1,6 +1,8 @@
 package net.hadences.common;
 
+import net.hadences.BossBarLib;
 import net.minecraft.entity.boss.BossBar;
+import net.minecraft.util.Identifier;
 
 public class CustomBossBar {
     private BossBar.Color color;
@@ -10,9 +12,10 @@ public class CustomBossBar {
     private boolean createWorldFog;
     private double visibleDistance;
 
-    private String overlayID;
+    private Identifier overlayID;
+    private Identifier[] overlayTextures;
     private int overlayFrames;
-    private boolean hasOverlay;
+    private final boolean hasOverlay;
 
     public CustomBossBar(BossBar.Color color, BossBar.Style style, boolean darkenScreen, boolean playBossMusic, boolean createWorldFog) {
         this.color = color;
@@ -36,7 +39,7 @@ public class CustomBossBar {
 
     public CustomBossBar(BossBar.Color color, BossBar.Style style, boolean darkenScreen,
                          boolean playBossMusic, boolean createWorldFog, double visibleDistance,
-                         String overlayID, int overlayFrames) {
+                         Identifier overlayID, int overlayFrames) {
         this.color = color;
         this.style = style;
         this.darkenSky = darkenScreen;
@@ -45,14 +48,23 @@ public class CustomBossBar {
         this.visibleDistance = visibleDistance;
         this.overlayID = overlayID;
         this.overlayFrames = overlayFrames;
+        overlayTextures = new Identifier[overlayFrames];
+        for (int i = 0; i < overlayFrames; i++) {
+            int val = i+1;
+            overlayTextures[i] = new Identifier(overlayID.getNamespace(), overlayID.getPath() + val + ".png");
+        }
         this.hasOverlay = true;
+    }
+
+    public Identifier[] getOverlayTextures() {
+        return overlayTextures;
     }
 
     public boolean hasOverlay() {
         return hasOverlay;
     }
 
-    public String getOverlayID() {
+    public Identifier getOverlayID() {
         return overlayID;
     }
 

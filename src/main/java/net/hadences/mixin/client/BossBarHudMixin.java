@@ -1,6 +1,7 @@
 package net.hadences.mixin.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.hadences.BossBarLib;
 import net.hadences.common.CustomBossBar;
 import net.hadences.common.CustomBossBarManager;
 import net.hadences.common.CustomBossBarRegistry;
@@ -55,15 +56,38 @@ public class BossBarHudMixin {
                 bossBar.setThickenFog(customBossBar.isCreateWorldFog());
 
                 bossBar.setPercent(livingEntity.getHealth() / livingEntity.getMaxHealth());
+
+                if(customBossBar.hasOverlay()){
+                    j = 16;
+                    this.onRenderOverlay(customBossBar, context, k, 0);
+                }
+
                 this.onRenderBossBar(context, k, j, bossBar);
                 Text text = livingEntity.getDisplayName();
                 int m = this.client.textRenderer.getWidth(text);
                 int n = i / 2 - m / 2;
-                int o = j - 9;
+                int o = j - 10;
                 context.drawTextWithShadow(this.client.textRenderer, text, n, o, 0xFFFFFF);
                 ci.cancel();
             }
         }
+    }
+
+    @Unique
+    private void onRenderOverlay(CustomBossBar customBossBar, DrawContext context, int x, int y){
+        int frames = customBossBar.getOverlayFrames();
+        Identifier[] overlayTextures = customBossBar.getOverlayTextures();
+
+        long millisPerFrame = 100;
+        long currentTime = System.currentTimeMillis();
+        int frameIndex = (int) ((currentTime / millisPerFrame) % frames);
+
+
+        BossBarLib.LOGGER.info(overlayTextures[(int) (System.currentTimeMillis() / 1000) % frames].getPath());
+
+        RenderSystem.enableBlend();
+        context.drawTexture(overlayTextures[frameIndex], x-64, y, 0, 0, 310, 48, 310, 48);
+        RenderSystem.disableBlend();
     }
 
     @Unique

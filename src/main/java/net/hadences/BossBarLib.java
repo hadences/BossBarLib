@@ -7,6 +7,7 @@ import net.hadences.common.CustomBossBarManager;
 import net.hadences.common.CustomBossBarRegistry;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.boss.BossBar;
+import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,6 +22,6 @@ public class BossBarLib implements ModInitializer {
 
 		CustomBossBarRegistry.getInstance().registerBossBar(EntityType.ZOMBIE, new CustomBossBar(BossBar.Color.RED, BossBar.Style.PROGRESS,
 				false, false, false,
-				30.0, "template", 1));
+				30.0, new Identifier(BossBarLib.MOD_ID, "textures/boss_bars/template"), 3));
 	}
 }
