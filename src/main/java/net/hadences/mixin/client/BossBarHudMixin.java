@@ -1,6 +1,7 @@
 package net.hadences.mixin.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.hadences.common.CustomBossBar;
 import net.hadences.common.CustomBossBarManager;
 import net.hadences.common.CustomBossBarRegistry;
 import net.minecraft.client.MinecraftClient;
@@ -36,18 +37,38 @@ public class BossBarHudMixin {
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
     public void onRender(DrawContext context, CallbackInfo ci){
         LivingEntity livingEntity = CustomBossBarManager.INSTANCE.getClientTaggedEntity();
-        if(livingEntity != null && this.hasBossBar(livingEntity.getType())) {
+        if(livingEntity != null && this.hasBossBar(livingEntity.getType())
+                && !livingEntity.isSpectator() && !livingEntity.isInvisible() && livingEntity.isAlive()){
             int i = context.getScaledWindowWidth();
             int j = 12;
             int k = i / 2 - 91;
-            this.renderBossBar(context, k, j, CustomBossBarManager.getClientBossBar());
-            Text text = CustomBossBarManager.getClientBossBar().getName();
-            int m = this.client.textRenderer.getWidth(text);
-            int n = i / 2 - m / 2;
-            int o = j - 9;
-            context.drawTextWithShadow(this.client.textRenderer, text, n, o, 0xFFFFFF);
-            ci.cancel();
+
+            CustomBossBar customBossBar = CustomBossBarRegistry.getInstance().getBossBarMap(livingEntity.getType());
+            BossBar bossBar = CustomBossBarManager.getClientBossBar();
+
+            if(this.isWithinDistance(livingEntity, customBossBar)) {
+                //customize the boss bar
+                bossBar.setColor(customBossBar.getColor());
+                bossBar.setStyle(customBossBar.getStyle());
+                bossBar.setDarkenSky(customBossBar.isDarkenSky());
+                bossBar.setDragonMusic(customBossBar.isPlayBossMusic());
+                bossBar.setThickenFog(customBossBar.isCreateWorldFog());
+
+                bossBar.setPercent(livingEntity.getHealth() / livingEntity.getMaxHealth());
+                this.onRenderBossBar(context, k, j, bossBar);
+                Text text = livingEntity.getDisplayName();
+                int m = this.client.textRenderer.getWidth(text);
+                int n = i / 2 - m / 2;
+                int o = j - 9;
+                context.drawTextWithShadow(this.client.textRenderer, text, n, o, 0xFFFFFF);
+                ci.cancel();
+            }
         }
+    }
+
+    @Unique
+    private boolean isWithinDistance(LivingEntity entity, CustomBossBar cbb){
+        return entity.squaredDistanceTo(this.client.player) <= cbb.getVisibleDistance() * cbb.getVisibleDistance();
     }
 
     @Unique
@@ -56,16 +77,16 @@ public class BossBarHudMixin {
     }
 
     @Unique
-    private void renderBossBar(DrawContext context, int x, int y, BossBar bossBar) {
-        this.renderBossBar(context, x, y, bossBar, 182, BACKGROUND_TEXTURES, NOTCHED_BACKGROUND_TEXTURES);
+    private void onRenderBossBar(DrawContext context, int x, int y, BossBar bossBar) {
+        this.onRenderBossBar(context, x, y, bossBar, 182, BACKGROUND_TEXTURES, NOTCHED_BACKGROUND_TEXTURES);
         int i = MathHelper.lerpPositive(bossBar.getPercent(), 0, 182);
         if (i > 0) {
-            this.renderBossBar(context, x, y, bossBar, i, PROGRESS_TEXTURES, NOTCHED_PROGRESS_TEXTURES);
+            this.onRenderBossBar(context, x, y, bossBar, i, PROGRESS_TEXTURES, NOTCHED_PROGRESS_TEXTURES);
         }
     }
 
     @Unique
-    private void renderBossBar(DrawContext context, int x, int y, BossBar bossBar, int width, Identifier[] textures, Identifier[] notchedTextures) {
+    private void onRenderBossBar(DrawContext context, int x, int y, BossBar bossBar, int width, Identifier[] textures, Identifier[] notchedTextures) {
         context.drawGuiTexture(textures[bossBar.getColor().ordinal()], 182, 5, 0, 0, x, y, width, 5);
         if (bossBar.getStyle() != BossBar.Style.PROGRESS) {
             RenderSystem.enableBlend();
