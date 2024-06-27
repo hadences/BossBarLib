@@ -17,6 +17,9 @@
 	"entrypoints": {
 		"main": [
 			"net.hadences.BossBarLib"
+		],
+		"client": [
+			"net.hadences.BossBarLibClient"
 		]
 	},
 	"mixins": [
