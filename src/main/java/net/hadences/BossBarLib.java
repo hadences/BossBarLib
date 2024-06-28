@@ -20,8 +20,11 @@ public class BossBarLib implements ModInitializer {
 		LOGGER.info("BossBarLib initialized");
 		CustomBossBarManager.initServer();
 
-		CustomBossBarRegistry.getInstance().registerBossBar(EntityType.ZOMBIE, new CustomBossBar(BossBar.Color.RED, BossBar.Style.PROGRESS,
+		CustomBossBarRegistry.getInstance().registerBossBar(EntityType.PIG, new CustomBossBar(0x970300, BossBar.Style.PROGRESS,
+				false, false, false));
+
+		CustomBossBarRegistry.getInstance().registerBossBar(EntityType.SHEEP, new CustomBossBar(0x63c74d, BossBar.Style.PROGRESS,
 				false, false, false,
-				30.0, new Identifier(BossBarLib.MOD_ID, "textures/boss_bars/template"), 3));
+				30.0, new Identifier(BossBarLib.MOD_ID, "textures/boss_bars/template"), 1));
 	}
 }

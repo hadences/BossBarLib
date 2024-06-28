@@ -14,6 +14,7 @@ import net.minecraft.entity.boss.BossBar;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
+import org.joml.Vector3f;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -35,6 +36,7 @@ public class BossBarHudMixin {
 
     @Shadow @Final private MinecraftClient client;
 
+
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
     public void onRender(DrawContext context, CallbackInfo ci){
         LivingEntity livingEntity = CustomBossBarManager.INSTANCE.getClientTaggedEntity();
@@ -49,25 +51,26 @@ public class BossBarHudMixin {
 
             if(this.isWithinDistance(livingEntity, customBossBar)) {
                 //customize the boss bar
-                bossBar.setColor(customBossBar.getColor());
+                bossBar.setColor(BossBar.Color.WHITE);
                 bossBar.setStyle(customBossBar.getStyle());
                 bossBar.setDarkenSky(customBossBar.isDarkenSky());
                 bossBar.setDragonMusic(customBossBar.isPlayBossMusic());
                 bossBar.setThickenFog(customBossBar.isCreateWorldFog());
 
                 bossBar.setPercent(livingEntity.getHealth() / livingEntity.getMaxHealth());
-
                 if(customBossBar.hasOverlay()){
-                    j = 16;
-                    this.onRenderOverlay(customBossBar, context, k, 0);
+                    j = 18;
                 }
-
-                this.onRenderBossBar(context, k, j, bossBar);
+                this.onRenderBossBar(context, k, j, bossBar, customBossBar.getColor());
                 Text text = livingEntity.getDisplayName();
                 int m = this.client.textRenderer.getWidth(text);
-                int n = i / 2 - m / 2;
-                int o = j - 10;
+                int n = i / 2 - m / 2 + 2;
+                int o = j - (customBossBar.hasOverlay() ? 14 : 9);
                 context.drawTextWithShadow(this.client.textRenderer, text, n, o, 0xFFFFFF);
+                if(customBossBar.hasOverlay()){
+                    this.onRenderOverlay(customBossBar, context, k, 2);
+                }
+
                 ci.cancel();
             }
         }
@@ -101,21 +104,33 @@ public class BossBarHudMixin {
     }
 
     @Unique
-    private void onRenderBossBar(DrawContext context, int x, int y, BossBar bossBar) {
-        this.onRenderBossBar(context, x, y, bossBar, 182, BACKGROUND_TEXTURES, NOTCHED_BACKGROUND_TEXTURES);
+    private void onRenderBossBar(DrawContext context, int x, int y, BossBar bossBar, int color) {
+        this.onRenderBossBar(context, x, y, bossBar, 182, BACKGROUND_TEXTURES, NOTCHED_BACKGROUND_TEXTURES, color);
         int i = MathHelper.lerpPositive(bossBar.getPercent(), 0, 182);
         if (i > 0) {
-            this.onRenderBossBar(context, x, y, bossBar, i, PROGRESS_TEXTURES, NOTCHED_PROGRESS_TEXTURES);
+            this.onRenderBossBar(context, x, y, bossBar, i, PROGRESS_TEXTURES, NOTCHED_PROGRESS_TEXTURES, color);
         }
     }
 
     @Unique
-    private void onRenderBossBar(DrawContext context, int x, int y, BossBar bossBar, int width, Identifier[] textures, Identifier[] notchedTextures) {
-        context.drawGuiTexture(textures[bossBar.getColor().ordinal()], 182, 5, 0, 0, x, y, width, 5);
+    private void onRenderBossBar(DrawContext context, int x, int y, BossBar bossBar, int width, Identifier[] textures, Identifier[] notchedTextures, int color) {
+        Vector3f c = intToNormalizedRGBVector(color);
+        RenderSystem.setShaderColor(c.x, c.y, c.z, 1.0F);
+        context.drawGuiTexture(textures[BossBar.Color.WHITE.ordinal()], 182, 5, 0, 0, x, y, width, 5);
         if (bossBar.getStyle() != BossBar.Style.PROGRESS) {
             RenderSystem.enableBlend();
             context.drawGuiTexture(notchedTextures[bossBar.getStyle().ordinal() - 1], 182, 5, 0, 0, x, y, width, 5);
             RenderSystem.disableBlend();
         }
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+    }
+
+    @Unique
+    public Vector3f intToNormalizedRGBVector(int color) {
+        float red = (color >> 16) & 0xFF;
+        float green = (color >> 8) & 0xFF;
+        float blue = color & 0xFF;
+
+        return new Vector3f(red / 255f, green / 255f, blue / 255f);
     }
 }

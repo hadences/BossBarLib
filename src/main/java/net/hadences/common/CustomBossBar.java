@@ -5,7 +5,7 @@ import net.minecraft.entity.boss.BossBar;
 import net.minecraft.util.Identifier;
 
 public class CustomBossBar {
-    private BossBar.Color color;
+    private int color;
     private BossBar.Style style;
     private boolean darkenSky;
     private boolean playBossMusic;
@@ -17,7 +17,7 @@ public class CustomBossBar {
     private int overlayFrames;
     private final boolean hasOverlay;
 
-    public CustomBossBar(BossBar.Color color, BossBar.Style style, boolean darkenScreen, boolean playBossMusic, boolean createWorldFog) {
+    public CustomBossBar(int color, BossBar.Style style, boolean darkenScreen, boolean playBossMusic, boolean createWorldFog) {
         this.color = color;
         this.style = style;
         this.darkenSky = darkenScreen;
@@ -27,7 +27,7 @@ public class CustomBossBar {
         this.hasOverlay = false;
     }
 
-    public CustomBossBar(BossBar.Color color, BossBar.Style style, boolean darkenScreen, boolean playBossMusic, boolean createWorldFog, double visibleDistance) {
+    public CustomBossBar(int color, BossBar.Style style, boolean darkenScreen, boolean playBossMusic, boolean createWorldFog, double visibleDistance) {
         this.color = color;
         this.style = style;
         this.darkenSky = darkenScreen;
@@ -37,7 +37,7 @@ public class CustomBossBar {
         this.hasOverlay = false;
     }
 
-    public CustomBossBar(BossBar.Color color, BossBar.Style style, boolean darkenScreen,
+    public CustomBossBar(int color, BossBar.Style style, boolean darkenScreen,
                          boolean playBossMusic, boolean createWorldFog, double visibleDistance,
                          Identifier overlayID, int overlayFrames) {
         this.color = color;
@@ -80,11 +80,11 @@ public class CustomBossBar {
         this.visibleDistance = visibleDistance;
     }
 
-    public BossBar.Color getColor() {
+    public int getColor() {
         return color;
     }
 
-    public void setColor(BossBar.Color color) {
+    public void setColor(int color) {
         this.color = color;
     }
 
