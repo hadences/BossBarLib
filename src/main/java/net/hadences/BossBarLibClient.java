@@ -7,6 +7,6 @@ public class BossBarLibClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         BossBarLib.LOGGER.info("BossBarLibClient initialized");
-        CustomBossBarManager.initClient();
+//        CustomBossBarManager.initClient();
     }
 }

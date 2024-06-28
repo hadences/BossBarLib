@@ -18,13 +18,6 @@ public class BossBarLib implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		LOGGER.info("BossBarLib initialized");
-		CustomBossBarManager.initServer();
-
-		CustomBossBarRegistry.getInstance().registerBossBar(EntityType.PIG, new CustomBossBar(0x970300, BossBar.Style.PROGRESS,
-				false, false, false));
-
-		CustomBossBarRegistry.getInstance().registerBossBar(EntityType.SHEEP, new CustomBossBar(0x63c74d, BossBar.Style.PROGRESS,
-				false, false, false,
-				30.0, new Identifier(BossBarLib.MOD_ID, "textures/boss_bars/template"), 1));
+//		CustomBossBarManager.initServer();
 	}
 }
