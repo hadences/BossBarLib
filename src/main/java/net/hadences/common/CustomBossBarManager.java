@@ -1,6 +1,6 @@
 package net.hadences.common;
 
-import net.hadences.network.ModPackets;
+import net.hadences.network.BBLModPackets;
 import net.minecraft.client.gui.hud.ClientBossBar;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.boss.BossBar;
@@ -14,12 +14,12 @@ public class CustomBossBarManager {
 
     // This method is called in the onInitialize method of the main mod class - Server side only
     public static void initServer() {
-        ModPackets.registerC2SPackets();
+        BBLModPackets.registerC2SPackets();
     }
 
     // This method is called in the onInitializeClient method of the client mod class - Client side only
     public static void initClient() {
-        ModPackets.registerS2CPackets();
+        BBLModPackets.registerS2CPackets();
         clientBossBar = new ClientBossBar(MathHelper.randomUuid(), Text.empty(), 100,
                 BossBar.Color.YELLOW, BossBar.Style.PROGRESS, false, false, false);
     }

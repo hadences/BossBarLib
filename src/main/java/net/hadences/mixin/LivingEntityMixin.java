@@ -3,7 +3,7 @@ package net.hadences.mixin;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.hadences.common.CustomBossBarRegistry;
-import net.hadences.network.ModPackets;
+import net.hadences.network.BBLModPackets;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.boss.WitherEntity;
@@ -28,14 +28,14 @@ public class LivingEntityMixin {
                 int entityID = ((LivingEntity)(Object)this).getId();
                 PacketByteBuf buffer = PacketByteBufs.create();
                 buffer.writeInt(entityID);
-                ServerPlayNetworking.send(attacker, ModPackets.SET_TAGGED_ENTTIY, buffer);
+                ServerPlayNetworking.send(attacker, BBLModPackets.SET_TAGGED_ENTTIY, buffer);
                 return;
             }
             if(!hasBossBar(entity.getType())) return;
             int entityID = ((LivingEntity)(Object)this).getId();
             PacketByteBuf buffer = PacketByteBufs.create();
             buffer.writeInt(entityID);
-            ServerPlayNetworking.send(attacker, ModPackets.SET_TAGGED_ENTTIY, buffer);
+            ServerPlayNetworking.send(attacker, BBLModPackets.SET_TAGGED_ENTTIY, buffer);
         }
     }
 
