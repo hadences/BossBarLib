@@ -85,9 +85,6 @@ public class BossBarHudMixin {
         long currentTime = System.currentTimeMillis();
         int frameIndex = (int) ((currentTime / millisPerFrame) % frames);
 
-
-        BossBarLib.LOGGER.info(overlayTextures[(int) (System.currentTimeMillis() / 1000) % frames].getPath());
-
         RenderSystem.enableBlend();
         context.drawTexture(overlayTextures[frameIndex], x-64, y, 0, 0, 310, 48, 310, 48);
         RenderSystem.disableBlend();
