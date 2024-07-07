@@ -57,18 +57,19 @@ Custom bossbars must be registered at initialization and cannot be created durin
 ```ruby
 public class TestMod implements ModInitializer {
 
-  public static final String MOD_ID ="testmod";
-
-  @Override
-  public void onInitialize() {
+    public static final String MOD_ID ="testmod";
+    
+    @Override
+    public void onInitialize() {
       CustomBossBarManager.initServer();\
       registerCustomBossBars();
-  }
-}
+    }
 
-private void registerCustomBossBars() {
-    CustomBossBarRegistry bossBarRegistry = CustomBossBarRegistry.getInstance();
-    bossBarRegistry.registerBossBar(EntityType.PIG,
-      new CustomBossBar(0xffffff, BossBar.Style.PROGRESS, false, false, false, 30.0, new Identifier(TestMod.MOD_ID, "textures/boss_bars/template"), 2));
+    private void registerCustomBossBars() {
+        CustomBossBarRegistry bossBarRegistry = CustomBossBarRegistry.getInstance();
+        bossBarRegistry.registerBossBar(EntityType.PIG,
+          new CustomBossBar(0xffffff, BossBar.Style.PROGRESS, false, false, false, 30.0, new Identifier(TestMod.MOD_ID, "textures/boss_bars/template"), 2));
+    }
+
 }
 ```
