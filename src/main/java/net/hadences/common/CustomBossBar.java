@@ -51,7 +51,7 @@ public class CustomBossBar {
         overlayTextures = new Identifier[overlayFrames];
         for (int i = 0; i < overlayFrames; i++) {
             int val = i+1;
-            overlayTextures[i] = new Identifier(overlayID.getNamespace(), overlayID.getPath() + val + ".png");
+            overlayTextures[i] = Identifier.of(overlayID.getNamespace(), overlayID.getPath() + val + ".png");
         }
         this.hasOverlay = true;
     }

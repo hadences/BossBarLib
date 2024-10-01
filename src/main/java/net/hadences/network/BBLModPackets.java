@@ -1,18 +1,24 @@
 package net.hadences.network;
 
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.hadences.BossBarLib;
-import net.hadences.network.packets.S2C.SetTaggedEnttiyS2CPacket;
-import net.minecraft.util.Identifier;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.hadences.network.packets.S2C.SetTaggedEnttiyPacketHandler;
+import net.hadences.network.packets.SetTaggedEntityPacket;
 
 public class BBLModPackets {
-    public static final Identifier SET_TAGGED_ENTTIY = new Identifier(BossBarLib.MOD_ID, "set_tagged_entity");
-
     public static void registerC2SPackets(){
 
     }
 
     public static void registerS2CPackets(){
-        ClientPlayNetworking.registerGlobalReceiver(SET_TAGGED_ENTTIY, SetTaggedEnttiyS2CPacket::receive);
+        ClientPlayNetworking.registerGlobalReceiver(SetTaggedEntityPacket.PACKET_ID, ((payload, context) -> SetTaggedEnttiyPacketHandler.receive(payload, context.client())));
+    }
+
+    public static void registerC2SPacketCodecs(){
+
+    }
+
+    public static void registerS2CPacketCodecs(){
+        PayloadTypeRegistry.playS2C().register(SetTaggedEntityPacket.PACKET_ID, SetTaggedEntityPacket.PACKET_CODEC);
     }
 }
