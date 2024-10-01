@@ -61,14 +61,14 @@ public class TestMod implements ModInitializer {
     
     @Override
     public void onInitialize() {
-      CustomBossBarManager.initServer();\
+      CustomBossBarManager.initServer();
       registerCustomBossBars();
     }
 
     private void registerCustomBossBars() {
         CustomBossBarRegistry bossBarRegistry = CustomBossBarRegistry.getInstance();
         bossBarRegistry.registerBossBar(EntityType.PIG,
-          new CustomBossBar(0xffffff, BossBar.Style.PROGRESS, false, false, false, 30.0, new Identifier(TestMod.MOD_ID, "textures/boss_bars/template"), 2));
+          new CustomBossBar(0xffffff, BossBar.Style.PROGRESS, false, false, false, 30.0, Identifier.of(TestMod.MOD_ID, "textures/boss_bars/template"), 2));
     }
 
 }

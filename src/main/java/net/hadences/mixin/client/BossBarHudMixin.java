@@ -1,7 +1,6 @@
 package net.hadences.mixin.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.hadences.BossBarLib;
 import net.hadences.common.CustomBossBar;
 import net.hadences.common.CustomBossBarManager;
 import net.hadences.common.CustomBossBarRegistry;
@@ -26,13 +25,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(BossBarHud.class)
 public class BossBarHudMixin {
     @Unique
-    private static final Identifier[] BACKGROUND_TEXTURES = new Identifier[]{new Identifier("boss_bar/pink_background"), new Identifier("boss_bar/blue_background"), new Identifier("boss_bar/red_background"), new Identifier("boss_bar/green_background"), new Identifier("boss_bar/yellow_background"), new Identifier("boss_bar/purple_background"), new Identifier("boss_bar/white_background")};
+    private static final Identifier[] BACKGROUND_TEXTURES = new Identifier[]{Identifier.of("boss_bar/pink_background"), Identifier.of("boss_bar/blue_background"), Identifier.of("boss_bar/red_background"), Identifier.of("boss_bar/green_background"), Identifier.of("boss_bar/yellow_background"), Identifier.of("boss_bar/purple_background"), Identifier.of("boss_bar/white_background")};
     @Unique
-    private static final Identifier[] PROGRESS_TEXTURES = new Identifier[]{new Identifier("boss_bar/pink_progress"), new Identifier("boss_bar/blue_progress"), new Identifier("boss_bar/red_progress"), new Identifier("boss_bar/green_progress"), new Identifier("boss_bar/yellow_progress"), new Identifier("boss_bar/purple_progress"), new Identifier("boss_bar/white_progress")};
+    private static final Identifier[] PROGRESS_TEXTURES = new Identifier[]{Identifier.of("boss_bar/pink_progress"), Identifier.of("boss_bar/blue_progress"), Identifier.of("boss_bar/red_progress"), Identifier.of("boss_bar/green_progress"), Identifier.of("boss_bar/yellow_progress"), Identifier.of("boss_bar/purple_progress"), Identifier.of("boss_bar/white_progress")};
     @Unique
-    private static final Identifier[] NOTCHED_BACKGROUND_TEXTURES = new Identifier[]{new Identifier("boss_bar/notched_6_background"), new Identifier("boss_bar/notched_10_background"), new Identifier("boss_bar/notched_12_background"), new Identifier("boss_bar/notched_20_background")};
+    private static final Identifier[] NOTCHED_BACKGROUND_TEXTURES = new Identifier[]{Identifier.of("boss_bar/notched_6_background"), Identifier.of("boss_bar/notched_10_background"), Identifier.of("boss_bar/notched_12_background"), Identifier.of("boss_bar/notched_20_background")};
     @Unique
-    private static final Identifier[] NOTCHED_PROGRESS_TEXTURES = new Identifier[]{new Identifier("boss_bar/notched_6_progress"), new Identifier("boss_bar/notched_10_progress"), new Identifier("boss_bar/notched_12_progress"), new Identifier("boss_bar/notched_20_progress")};
+    private static final Identifier[] NOTCHED_PROGRESS_TEXTURES = new Identifier[]{Identifier.of("boss_bar/notched_6_progress"), Identifier.of("boss_bar/notched_10_progress"), Identifier.of("boss_bar/notched_12_progress"), Identifier.of("boss_bar/notched_20_progress")};
 
     @Shadow @Final private MinecraftClient client;
 

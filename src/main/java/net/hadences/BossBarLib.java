@@ -20,4 +20,5 @@ public class BossBarLib implements ModInitializer {
 		LOGGER.info("BossBarLib initialized");
 //		CustomBossBarManager.initServer();
 	}
+
 }

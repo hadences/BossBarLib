@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.hadences.common.CustomBossBarRegistry;
 import net.hadences.network.BBLModPackets;
+import net.hadences.network.packets.SetTaggedEntityPacket;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.boss.WitherEntity;
@@ -26,16 +27,14 @@ public class CustomBossBarLivingEntityMixin {
             LivingEntity entity = (LivingEntity)(Object)this;
             if(entity instanceof WitherEntity || entity instanceof EnderDragonEntity){
                 int entityID = ((LivingEntity)(Object)this).getId();
-                PacketByteBuf buffer = PacketByteBufs.create();
-                buffer.writeInt(entityID);
-                ServerPlayNetworking.send(attacker, BBLModPackets.SET_TAGGED_ENTTIY, buffer);
+                ServerPlayNetworking.send(attacker, new SetTaggedEntityPacket(entityID));
                 return;
             }
             if(!hasBossBar(entity.getType())) return;
             int entityID = ((LivingEntity)(Object)this).getId();
             PacketByteBuf buffer = PacketByteBufs.create();
             buffer.writeInt(entityID);
-            ServerPlayNetworking.send(attacker, BBLModPackets.SET_TAGGED_ENTTIY, buffer);
+            ServerPlayNetworking.send(attacker, new SetTaggedEntityPacket(entityID));
         }
     }
 
