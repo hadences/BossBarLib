@@ -15,7 +15,7 @@ public class BBLModPackets {
     }
 
     public static void registerC2SPacketCodecs(){
-
+        PayloadTypeRegistry.playC2S().register(SetTaggedEntityPacket.PACKET_ID, SetTaggedEntityPacket.PACKET_CODEC);
     }
 
     public static void registerS2CPacketCodecs(){
