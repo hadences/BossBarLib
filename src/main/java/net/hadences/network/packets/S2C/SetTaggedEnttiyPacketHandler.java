@@ -1,6 +1,5 @@
 package net.hadences.network.packets.S2C;
 
-import net.hadences.BossBarLib;
 import net.hadences.common.CustomBossBarManager;
 import net.hadences.network.packets.SetTaggedEntityPacket;
 import net.minecraft.client.MinecraftClient;
@@ -14,7 +13,6 @@ public class SetTaggedEnttiyPacketHandler {
             if(client.world == null) return;
             Entity entity = client.world.getEntityById(entityID);
             if (entity instanceof LivingEntity le) {
-                BossBarLib.LOGGER.info("test");
                 CustomBossBarManager.INSTANCE.setClientTaggedEntity(le);
             }
         });
